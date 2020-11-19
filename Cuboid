@@ -1,0 +1,111 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// TODO : a missing interface method must be implemented in this class to make it compile. This must be in terms of volume().
+public class Cuboid implements ThreeDShape, Positionable {
+
+    private final ThreeDPoint[] vertices = new ThreeDPoint[8];
+
+    /**
+     * Creates a cuboid out of the list of vertices. It is expected that the vertices are provided in
+     * the order as shown in the figure given in the homework document (from v0 to v7).
+     * 
+     * @param vertices the specified list of vertices in three-dimensional space.
+     */
+    public Cuboid(List<ThreeDPoint> vertices) {
+        if (vertices.size() != 8)
+            throw new IllegalArgumentException(String.format("Invalid set of vertices specified for %s",
+                    this.getClass().getName()));
+        int n = 0;
+        for (ThreeDPoint p : vertices) this.vertices[n++] = p;
+    }
+
+    @Override
+    public double volume() {
+        double length = vertices[0].getX() - vertices[1].getX();
+        double width = vertices[2].getY() - vertices[7].getY();
+        double height = vertices[1].getZ() - vertices[2].getZ();
+        double volume = (length * width * height);
+        if(volume < 0){
+            volume = volume * -1;
+        }
+        return volume;
+    }
+
+    @Override
+    public double surfacearea(){
+        double length = vertices[0].getX() - vertices[1].getX();
+        double width = vertices[2].getY() - vertices[7].getY();
+        double height = vertices[1].getZ() - vertices[2].getZ();
+        double surfacearea = 2*((length*width) + (width*height) + (height*length));
+        if(surfacearea < 0){
+            surfacearea = surfacearea * -1;
+        }
+        return surfacearea;
+    }
+
+    @Override
+    public ThreeDPoint center() {
+        int sumX = 0;
+        int sumY = 0;
+        int sumZ = 0;
+        for(int i =0; i<vertices.length; i++){
+            sumX += vertices[i].coordinates()[0];
+            sumY += vertices[i].coordinates()[1];
+            sumZ += vertices[i].coordinates()[2];
+        }
+        sumX = sumX/8;
+        sumY = sumY/8;
+        sumZ = sumZ/8;
+        ThreeDPoint center = new ThreeDPoint(sumX, sumY, sumZ);
+        return center;
+    }
+
+    @Override
+    public int compareTo(ThreeDShape o) {
+        int value = 0;
+        if (this.volume() < o.volume()) {
+            value +=  -1;
+        }
+        else if(this.volume() == o.volume()) {
+            value +=  0;
+        }
+        else if(this.volume() > o.volume()){
+            value += 1;
+        }
+        return value;
+    }
+
+    public Cuboid random(){
+        List<ThreeDPoint> random = new ArrayList<ThreeDPoint>();
+        int x1 = (int) (Math.random()*10) + 1; // 4
+        int y1 = (int) (Math.random()*10) + 1; //0
+        ThreeDPoint vertex0 = new ThreeDPoint(x1, y1, x1);
+        ThreeDPoint vertex5 = new ThreeDPoint(x1, x1, x1);
+        ThreeDPoint vertex3 = new ThreeDPoint(x1, y1, y1);
+        ThreeDPoint vertex4 = new ThreeDPoint(x1, x1, y1);
+        ThreeDPoint vertex1 = new ThreeDPoint(y1, y1, x1);
+        ThreeDPoint vertex2 = new ThreeDPoint(y1, y1, y1);
+        ThreeDPoint vertex6 = new ThreeDPoint(y1, x1, x1);
+        ThreeDPoint vertex7 = new ThreeDPoint(y1, x1, y1);
+        random.add(vertex0);
+        random.add(vertex1);
+        random.add(vertex2);
+        random.add(vertex3);
+        random.add(vertex4);
+        random.add(vertex5);
+        random.add(vertex6);
+        random.add(vertex7);
+        Cuboid cube = new Cuboid(random);
+        return cube;
+    }
+
+    @Override
+    public void setPosition(List<? extends Point> points) {
+    }
+
+    @Override
+    public List<? extends Point> getPosition() {
+        return null;
+    }
+}
