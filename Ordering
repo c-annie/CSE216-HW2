@@ -1,0 +1,147 @@
+import java.util.*;
+
+public class Ordering {
+
+    static class XLocationComparator implements Comparator<TwoDShape> {
+        @Override
+        public int compare(TwoDShape o1, TwoDShape o2) {
+            int value = 0;
+            if (o1.smallestX() > o2.smallestX()) {
+                value += 1;
+            }
+            if(o1.smallestX() == o2.smallestX()) {
+                value += 0;
+            }
+            if(o1.smallestX() < o2.smallestX()) {
+                value += -1;
+            }
+            return value;
+        }
+    }
+
+    static class AreaComparator implements Comparator<SymmetricTwoDShape> {
+        @Override
+        public int compare(SymmetricTwoDShape o1, SymmetricTwoDShape o2) {
+            int value = 0;
+            if (o1.area() > o2.area()) {
+                value += 1;
+            }
+            if(o1.area() == o2.area()) {
+                value += 0;
+            }
+            if(o1.area() < o2.area()) {
+                value += -1;
+            }
+            return value;
+        }
+    }
+
+    static class SurfaceAreaComparator implements Comparator<ThreeDShape> {
+        @Override
+        public int compare(ThreeDShape o1, ThreeDShape o2) {
+            int value = 0;
+            if(o1.surfacearea() > o2.surfacearea()) {
+                value += 1;
+            }
+            else if(o1.surfacearea() == o2.surfacearea()){ 
+                value += 0; 
+            }
+            else if(o1.surfacearea() < o2.surfacearea()) {
+                value += -1;
+            }
+            return value;
+        }
+    }
+
+    // TODO: there's a lot wrong with this method. correct it so that it can work properly with generics.
+    static <T> void copy(Collection<? extends T> source, Collection<T> destination) {
+        destination.addAll(source);
+    }
+
+    public static void main(String[] args) {
+        List<TwoDShape>          shapes          = new ArrayList<>();
+        List<SymmetricTwoDShape> symmetricshapes = new ArrayList<>();
+        List<ThreeDShape>        threedshapes    = new ArrayList<>();
+
+        List<ThreeDPoint> three = new ArrayList<ThreeDPoint>();
+        ThreeDPoint v0 = new ThreeDPoint(4, 0,4);
+        ThreeDPoint v1 = new ThreeDPoint(0, 0, 4);
+        ThreeDPoint v2 = new ThreeDPoint(0, 0, 0);
+        ThreeDPoint v3 = new ThreeDPoint(4, 0,0);
+        ThreeDPoint v4 = new ThreeDPoint(4, 4, 0);
+        ThreeDPoint v5 = new ThreeDPoint(4,4,4);
+        ThreeDPoint v6 = new ThreeDPoint(0, 4, 4);
+        ThreeDPoint v7 = new ThreeDPoint(0, 4, 0);
+        three.add(v0);
+        three.add(v1);
+        three.add(v2);
+        three.add(v3);
+        three.add(v4);
+        three.add(v5);
+        three.add(v6);
+        three.add(v7);
+
+//        Cuboid c = new Cuboid(three);
+//        Sphere s = new Sphere(0, 0 ,0, 4);
+//        System.out.println(s.getRadius());
+//        System.out.println(s.volume());
+//        System.out.println(s.surfacearea());
+//        Sphere temp = s.random();
+//        System.out.println(temp.getRadius());
+//        System.out.println(temp.volume());
+//        System.out.println(temp.surfacearea());
+//
+//        *//*
+//         * uncomment the following block and fill in the "..." constructors to create actual instances. If your
+//         * implementations are correct, then the code should compile and yield the expected results of the various
+//         * shapes being ordered by their smallest x-coordinate, area, volume, surface area, etc. *//*
+
+        List <TwoDPoint> x = new ArrayList<TwoDPoint>();
+        TwoDPoint x0 = new TwoDPoint(2.0,2.0);
+        TwoDPoint x1 = new TwoDPoint(0.0, 2.0);
+        TwoDPoint x2 = new TwoDPoint(0.0, 0.0);
+        TwoDPoint x3 = new TwoDPoint(2.0, 0.0);
+        x.add(x0);
+        x.add(x1);
+        x.add(x2);
+        x.add(x3);
+        List <TwoDPoint> y = new ArrayList<TwoDPoint>();
+        TwoDPoint y0 = new TwoDPoint(0.0, 0.0);
+        TwoDPoint y1 = new TwoDPoint(1.0, 0.0);
+        TwoDPoint y2 = new TwoDPoint(1.0, 1.0);
+        TwoDPoint y3 = new TwoDPoint(1.0, 0.0);
+        y.add(y0);
+        y.add(y1);
+        y.add(y2);
+        y.add(y3);
+
+        symmetricshapes.add(new Rectangle(y));
+        symmetricshapes.add(new Square(x));
+        symmetricshapes.add(new Circle(0.0, 0.0, 1.0));
+
+        copy(symmetricshapes,shapes); // note-1 //
+        shapes.add(new Quadrilateral(y));
+
+        // sorting 2d shapes according to various criteria
+        shapes.sort(new XLocationComparator());
+        symmetricshapes.sort(new XLocationComparator());
+        symmetricshapes.sort(new AreaComparator());
+
+        // sorting 3d shapes according to various criteria
+        Collections.sort(threedshapes);
+        threedshapes.sort(new SurfaceAreaComparator());
+
+        /*
+         * if your changes to copy() are correct, uncommenting the following block will also work as expected note that
+         * copy() should work for the line commented with 'note-1' while at the same time also working with the lines
+         * commented with 'note-2' and 'note-3'. */
+
+        List<Number> numbers = new ArrayList<>();
+        List<Double> doubles = new ArrayList<>();
+        Set<Square>  squares = new HashSet<>();
+        Set<Quadrilateral> quads   = new LinkedHashSet<>();
+
+        copy(doubles, numbers); // note-2 //
+        copy(squares, quads);   // note-3 //
+    }
+}
