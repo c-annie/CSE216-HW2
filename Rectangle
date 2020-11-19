@@ -1,0 +1,42 @@
+import java.util.List;
+
+    public class Rectangle extends Quadrilateral implements SymmetricTwoDShape {
+
+        public Rectangle(List<TwoDPoint> vertices){
+            super(vertices);
+        }
+
+        /**
+         * The center of a rectangle is calculated to be the point of intersection of its diagonals.
+         *
+         * @return the center of this rectangle.
+         */
+
+
+    @Override
+    public Point center() {
+        List <TwoDPoint> list = super.getPosition(); //has the vertices
+        double newx = 0;
+        double newy = 0;
+        if ((list.get(0).coordinates()[0] + list.get(2).coordinates()[0])/2 == (list.get(1).coordinates()[0] + list.get(3).coordinates()[0])/2 &&
+                (list.get(0).coordinates()[1] + list.get(2).coordinates()[1])/2 == (list.get(1).coordinates()[1] + list.get(3).coordinates()[1])/2){
+            newx += (list.get(0).coordinates()[0] + list.get(2).coordinates()[0])/2;
+            newy += (list.get(0).coordinates()[1] + list.get(2).coordinates()[1])/2;
+        }
+        TwoDPoint newcenter = new TwoDPoint(newx, newy);
+        return newcenter;
+    }
+
+
+    @Override
+    public boolean isMember(List<? extends Point> vertices) {return vertices.size() == 4; }
+
+    @Override
+    public double area() {
+        double[] sidelengths = super.getSideLengths();
+        double length = sidelengths[0];
+        double width = sidelengths[1];
+        return length * width;
+    }
+
+}
