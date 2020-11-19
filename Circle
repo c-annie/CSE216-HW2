@@ -18,7 +18,6 @@ public class Circle implements Positionable, SymmetricTwoDShape {
 
     /**
      * Sets the position of the circle to be centered at the first element in the specified list of points.
-     *
      * @param points the specified list of points.
      * @throws IllegalArgumentException if the input does not consist of {@link TwoDPoint} instances.
      */
